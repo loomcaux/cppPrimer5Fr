@@ -1,0 +1,81 @@
+\chapter{COMMENCER}
+
+Ce chapitre introduit la plupart des éléments de base de C++: types, variables, expressions, déclarations, et les fonctions. En cours de route, nous expliquerons brièvement comment compiler et exécuter un programme.
+
+Après avoir lu ce chapitre et réalisé les différents exercices, vous devriez être capable d'écrire, de compiler et d'exécuter des programmes simples. Les chapitres suivants partiront du principe que vous pouvez utiliser les fonctionnalités présentées dans ce chapitre et expliqueront ces fonctionnalités plus en détail.
+
+\newpage
+\textbf{Le secret de la réussite} dans l'apprentissage d'un nouveau langage de programmation est d'écrire des programmes. Dans ce chapitre, nous allons écrire un programme pour résoudre un problème simple pour une librairie. Notre magasin conserve un fichier de transactions ; chacune d'elles enregistrant la vente d'un ou plusieurs exemplaires d'un même livre. Chaque transaction contient trois éléments de données:
+
+\medbreak
+\begin{lstlisting}[language=C]
+	0-201-70353-X 4 24.99
+\end{lstlisting}
+\medbreak
+Le premier élément est un numéro ISBN (International Standard Book NUmber, l'identifiant unique d'un livre), le second est le nombre de copies qui ont été vendues, et le dernier est le prix auquel chacun de ces exemplaires a été vendu. De temps en temps, le propriétaire de la librairie lit ce fichier et pour chaque livre calcule le nombre d'exemplaires vendus, le revenu total de ce livre et le prix de vente moyen.
+
+Pour pouvoir réaliser ce programme, nous devons parcourir quelques fonctionnalités de base du C++. De plus, nous allons avoir besoin de savoir comment compiler et exécuter un programme.
+
+Bien que nous n'ayons pas encore conçu notre programme, il est facile de deviner que l'on va devoir :
+
+\medbreak
+\begin{itemize}
+	\item[\textbullet] Définir des variables ;
+	\item[\textbullet] Faire l'entrée et la sortie ;
+	\item[\textbullet] Utiliser une structure de données qui contiendra les données ;
+	\item[\textbullet] Tester si deux enregistrements ont le même ISBN ;
+	\item[\textbullet] Créer une boucle qui traitera chaque enregistrement du ficher de transaction.
+\end{itemize}
+ 
+\medbreak
+Nous allons commencer à nous intéresser à la résolution de ces sous-problèmes en C++, puis nous écrirons notre programme de gestion de librairie.
+
+\section{Écrire un programme simple en C++}
+Chaque programme en C++ contient une ou plusieurs \textbf{fonctions}, dont l'une d'entre elles doit être appelée \textbf{main}. Le système d'exploitation exécute un programme C++ en appelant \textit{main}. Voici la syntaxe de base d'une fonction \textit{main} qui pour l'instant ne fait rien, mais renvoie une valeur au système d'exploitation:
+
+\medbreak
+\begin{lstlisting}[language=C]
+	int main()
+	{
+		return 0;
+	}
+\end{lstlisting}
+\medbreak
+
+Une définition de fonction comporte quatre éléments: un \textbf{type de valeur renvoyée}, le \textbf{nom de la fonction}, une \textbf{liste de paramètres} (éventuellement vide) entre parenthèses, et le \textbf{corps de la fonction}. Bien que \textit{main} est un peu particulière à certains égards, nous la définissons de la même manière que toute autre fonction.
+
+Dans cet exemple, \textit{main} ne dispose que d'une liste vide de paramètres (indiquée par les parenthèses () qui ne contiennent rien à l'intérieur). Dans la partie 6.2.5 de livre, nous verrons les autres types de paramètres que nous pouvons définir pour la fonction \textit{main}.
+
+La dernière partie d'une définition de fonction, le corps de la fonction, est un \textbf{bloc d'instructions} qui commence par une accolade ouvrante et se termine par une accolade fermante:
+
+\medbreak
+\begin{lstlisting}[language=C]
+	{
+		return 0;
+	}
+\end{lstlisting}
+\medbreak
+
+La seule instruction de ce bloc est \textit{return}, qui est donc l'instruction qui termine la fonction. Comme c'est le cas ici, un \textit{return} peut également renvoyer une valeur à l'appelant de la fonction. Lorsqu'un \textit{return} inclut une valeur, cette valeur renvoyée doit avoir un type compatible avec le type déclaré dans la fonction. Dans cette exemple, le type de retour de \textit{main} est \textit{int} et la valeur retournée est 0, qui donc est un \textit{int}.
+
+\begin{shadebox}Notez le point-virgule à la fin de l'instruction \textit{return}. Les points-virgules marquent la fin de la plupart des instructions en C++. On peut facilement les oublier ce qui conduit à de mystérieux messages d'erreur du compilateur.
+\end{shadebox}
+
+Sur la plupart des systèmes, la valeur renvoyée par \textit{main} est un indicateur d'état. Un 0 retourné indique un succès. Un retour différent de zéro a une signification qui est définie par le système. Habituellement, un retour différent de zéro indique le type d'erreur qui s'est produit.
+
+\begin{shadebox}
+\textbf{NOTION CLÉ: LES TYPES}
+
+Les types sont l'un des concepts les plus fondamentaux de la programmation et un concept sur lequel nous reviendrons encore et encore dans ce livre. Un type définit à la fois le contenu d'une donnée et les opérations possibles sur cette donnée.
+
+Les données manipulées par nos programmes sont stockées dans des variables et chacune a un type. Lorsque le type d'une variable nommée \textit{v} est \textit{t}, on dit souvent que "v a le type de t" ou, indifféremment, que "v est un t".
+
+\end{shadebox}
+
+\subsection{Compilation et Exécution de Notre Programme}
+Après avoir écrit le programme, nous devons le compiler. Comment compiler un programme dépend de votre système d'exploitation et de votre compilateur. Pour plus de détails sur la manière dont votre compilateur fonctionne, consultez le manuel de référence ou demandez à un collègue compétent.
+
+De nombreux compilateurs basés sur PC sont exécutés à partir d'un environnement de développement intégré (IDE). Il s'agit d'un package qui contient : le compilateur et des outils de construction et d'analyse. Ces IDE peuvent être un atout majeur dans le développement de programmes volumineux, mais nécessite un peu de temps pour apprendre à les utiliser efficacement. Apprendre à utiliser de tels environnements dépasse largement le cadre de ce livre.
+
+La plupart des compilateurs, y compris ceux fournis avec un IDE, fournissent une interface en ligne de commande. À moins que ne connaissiez déjà l'IDE, vous trouverez peut-être plus facile de démarrer avec l'interface de ligne de commande. Cela vous permettra de vous concentrer sur l'apprentissage C++ d'abord. De plus, une fois que vous comprenez le langage, l'IDE est susceptible d'être plus facile à apprendre.
+

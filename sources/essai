@@ -1,0 +1,5 @@
+int main{contenu...}
+	{
+		int a = 15;
+		print("Bonjour tout le monde");	
+	} 

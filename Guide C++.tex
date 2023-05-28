@@ -1,0 +1,134 @@
+\documentclass[a4paper,18pt,twoside]{report}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,vmargin=1.5cm}
+\usepackage{graphicx}
+\usepackage[urlcolor=blue,linkcolor=black,colorlinks=true]{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{shadethm}
+
+
+\definecolor{green}{rgb}{0,0.6,0}
+\begin{comment}pour trouver la couleur en décimal, on divise la valeur de RGB par 255. Exemple, si RGB(15,150,144), faire RGB(15/255,150/255,144/255)
+\end{comment}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{rgb}{0.90,0.45,0}
+\definecolor{grey}{rgb}{0.79,0.79,0.80}
+
+%------------------------------------------------------------------
+% Réglages pour le code source du langage C
+\lstdefinestyle{customc}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green},
+	commentstyle=\itshape\color{mauve},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+	belowcaptionskip=1\baselineskip,
+	frame=L,
+	xleftmargin=\parindent,
+	language=[x86masm]Assembler,
+	basicstyle=\footnotesize\ttfamily,
+	commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
+%-----------------------------------------------------------------------
+
+
+\title{Traduction de C++ Primer 5th Edition}
+\author{Auteurs: Stanley B. Lippman, Josée Lajoie et Barbara E. Moo}
+\date{Traduction non-officielle: Stomab}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+	\textsc{\LARGE C++ Primer 5th Edition}
+
+\end{titlepage}
+\maketitle
+
+\tableofcontents
+
+
+\newpage
+
+\section{Préface}
+De nombreux programmeurs ont appris le C++ avec les précédentes éditions de \textit{C++ Primer}. Pendant ce temps, le C++ a gagné en maturité: son objectif, encouragé par la communauté de développeurs, a été de se focaliser davantage sur l'efficacité du \textit{programmeur} plutôt que de l'efficacité de la \textit{machine}.
+
+En 2011, le comité des normes C++ a publié une révision majeure de la norme ISO C++. Cette révision est la dernière étape de l'évolution du C++ et continue de mettre l'accent sur l'efficacité du programmeur. Les principaux objectifs de la nouvelle norme sont les suivants:
+
+\medbreak
+\begin{itemize}
+	\item[\textbullet] Rendre le langage plus uniforme, plus facile à enseigner et à apprendre ;
+	\item[\textbullet] Simplifier les bibliothèques standards, les rendre plus sûres et plus efficaces à utiliser ;
+	\item[\textbullet] Faciliter l'écriture des abstractions et des bibliothèques de manière efficace.
+\end{itemize}
+
+\medbreak
+Dans cette édition, nous avons intégralement revu le \textit{C++ Primer} en y incorporant les dernières normes. Vous pourrez apprécier les différents changements impactés par ces nouvelles normes en consultant la table des matières.
+
+Certains ajouts dans la nouvelle norme, tels que \textit{auto} pour l'inférence de type, sont omniprésents. Ces fonctionnalités rendent le code de cette édition plus facile à lire et à comprendre. Les programmes (et les programmeurs !) peuvent ignorer ces détails, pour pouvoir se concentrer sur ce que le programme est censé faire. D'autres nouvelles fonctionnalités, telles que les pointeurs intelligents et les conteneurs avec éléments déplacés, permettront d'écrire des classes plus sophistiquées sans avoir à composer avec les complexités de la gestion des ressources. En conséquence, vous pourrez apprendre à écrire vos propres classes bien plus tôt dans le livre par rapport à l'édition précédente.
+
+Nous avons mis en évidence, dans le texte, les nouvelles fonctionnalités de la dernière norme, à l'aide d'une icône spécifique. Nous espérons que les lecteurs connaissant déjà le C++, trouveront ces remarques pertinentes pour décider où concentrer leur attention. \marginpar{\includegraphics{images/cpp11.jpg}}Nous espérons également que ces remarques, encadrées par ces icônes spécifiques, aideront à expliquer les messages d'erreur des compilateurs qui pourraient ne pas encore prendre en charge toutes les nouvelles fonctionnalités. Bien que la quasi-totalité des exemples de ce livre ont été compilés avec une version récente du compilateur GNU, nous sommes conscients que certains lecteurs n'auront pas encore accès à des compilateurs récents et mis à jour. Même si de nombreuses fonctionnalités ont été ajoutées pour répondre aux nouvelles normes, le langage de base reste inchangé et constitue l'essentiel du matériel que nous couvrons. Les lecteurs peuvent utiliser ces icônes pour noter quelles fonctionnalités peuvent ne pas être encore disponibles avec leur compilateur.
+
+\subsection{Pourquoi lire cet ouvrage ?}
+Le C++ moderne peut se résumer en trois parties :
+
+\medbreak
+\begin{itemize}
+	\item[\textbullet] Un langage de bas niveau, dont une grande partie est héritée du C ;
+	\item[\textbullet] Des fonctionnalités de langage plus avancées qui nous permettent de définir nos propres types et organiser des programmes et des systèmes à grande échelle ;
+	\item[\textbullet] La bibliothèque standard, qui utilise ces fonctionnalités avancées pour fournir des structures de données et des algorithmes.
+\end{itemize}
+
+\medbreak
+La plupart des ouvrages présentent le C++ dans l'ordre dans lequel il a évolué. Le sous-ensemble C est d'abord enseigné, puis viennent les fonctionnalités les plus abstraites de C++ sous forme de sujets avancés à la fin du livre seulement. Il y a deux problèmes avec cette approche: les lecteurs peuvent s'enliser dans les détails inhérents à la programmation de bas niveau et abandonner par frustration. Ceux qui persévèrent prennent de mauvaises habitudes qu'ils doivent désapprendre plus tard.
+
+Nous adoptons la démarche inverse: dès le début, nous utilisons les fonctionnalités qui permettent aux programmeurs d'ignorer les détails inhérents à la programmation de bas niveau. Par exemple, nous introduisons et utilisons les bibliothèques \textit{string} et \textit{vector} avec les opérateurs arithmétiques et les tableaux. Les programmes qui utilisent ces types de bibliothèques sont plus faciles à écrire, plus facile à comprendre, et moins sujets aux erreurs.
+
+Trop souvent, la bibliothèque est enseignée comme un sujet avancé. Au lieu d'utiliser la bibliothèque, de nombreux livres utilisent des techniques de programmation de bas niveau basées sur des pointeurs vers des tableaux de caractères et une gestion dynamique de la mémoire. Obtenir des programmes qui utilisent ces techniques de bas niveau pour fonctionner correctement est beaucoup plus difficile que d'écrire le code C++ correspondant à l'aide de la bibliothèque.
+
+Tout au long de \textit{C++ Primer}, nous mettons l'accent sur le bon style à adopter: nous voulons vous aider, le lecteur, à acquérir immédiatement de bonnes habitudes et à éviter d'avoir à désapprendre de mauvaises habitudes à mesure que vous apprenez de nouvelles choses de plus en plus complexes. Nous soulignons les questions particulièrement délicates et mettons en garde contre les idées fausses et les pièges courants.
+
+Nous expliquons également la raison d'être des règles, sans nous contenter de les décrire, mais en expliquant également le pourquoi de leur existence. Nous croyons qu'en comprenant pourquoi les choses fonctionnent ainsi, les lecteurs peuvent faciliter plus rapidement leur compréhension du langage.
+
+Même si vous n'avez pas spécialement besoin de connaître le C pour comprendre ce livre, nous supposons que vous en savez suffisamment sur la programmation pour écrire, compiler et exécuter un programme dans un langage moderne structuré en blocs. En particulier, nous partons du principe que vous savez utiliser des variables, écrire et appeler des fonctions et que vous avez déjà utilisé un compilateur. 
+
+\subsection{Ce qui change dans cette nouvelle édition}
+La nouveauté de cette édition de \textit{C++ Primer} est l'ajout d'icônes dans les marges pour guider le lecteur. C++ est un langage puissant qui offre des fonctionnalités adaptées à des raisonnements particuliers de programmation. Certaines de ces fonctionnalités sont très importantes pour les grandes équipes de projet, mais peuvent ne pas être nécessaires pour de plus petits projets. Par conséquent, tous les programmeurs ne sont pas dans l'obligation de connaître chaque détail de chaque fonctionnalité. Nous avons ajouté ces icônes accessoires pour guider le lecteur et lui indiquer les parties qui peuvent être approfondies ultérieurement ou au contraire, les sujets qui sont plus essentiels.
+
+\reversemarginpar{\includegraphics{images/livre.jpg}}Certains passages du livre qui abordent les principes fondamentaux du langage, seront signalés par une image représentant une personne plongée dans un livre. Les sujets traités dans les sections marquées de cette manière forment la partie centrale du langage. Tout le monde devrait lire et comprendre ces passages du livre.
+
+Nous avons également indiqué les passages qui couvrent des sujets avancés ou à usage spécifique. Ces sections peuvent être sautées ou survolées lors d'une première lecture. Nous indiquons les passages en question à l'aide d'une icône représentant une pile de livres.\marginpar{\includegraphics{images/pile.png}} Cela signifie que vous pouvez poser le livre en toute sécurité à ce stade de la lecture. Parcourir ces différentes sections peut s'avérer utile pour se tenir informé de ce qu'il est possible de faire. Cependant, il n'y a aucune raison de passer du temps à étudier ces sujets jusqu'à ce que vous ayez réellement besoin d'utiliser la fonctionnalité dans vos propres programmes.
+
+Pour aider les lecteurs à retenir leur attention sur un passage en particulier, nous avons mis en évidence les concepts particulièrement délicats avec une icône en forme de loupe. Nous espérons que les lecteurs prendront le temps de bien comprendre le sujet traité dans les passages marqués ainsi. \marginpar{\includegraphics{images/loupe.png}}Dans au moins certaines de ces sections, l'importance du sujet peut ne pas être évidente ; mais nous misons sur votre capacité à comprendre l'importance des sujets abordés et qui s'avèrent essentiels à la compréhension du langage.
+
+Ce qui reste inchangé, c'est que \textit{C++ Primer} est un guide didactique clair, correct et complet sur C++. Nous enseignons le langage en présentant une série d'exemples de plus en plus sophistiqués, qui expliquent les fonctionnalités du langage et montrent comment tirer le meilleur parti de C++.
+
+\subsection{Structure de ce livre}
+Nous commençons par couvrir ensemble les bases du langage et de la bibliothèque dans les parties I et II. Ces parties couvrent suffisamment de contenu pour vous permettre d'écrire des programmes. La plupart des programmeurs en C++ ont besoin de connaître essentiellement tout ce qui sera abordé dans cette partie du livre.
+
+En plus d'enseigner les bases du C++, le contenu des parties I et II vise un autre objectif important: en utilisant les fonctions définies par la bibliothèque, vous deviendrez plus à l'aide avec l'utilisation de techniques de programmation de haut niveau. Les fonctionnalités de la bibliothèque sont elles-mêmes des types de données abstraites qui sont généralement écrites en C++. La bibliothèque peut être définie en utilisant les mêmes caractéristiques de construction de classe que ...
+
+\bigbreak
+[A CONTINUER - INCOMPLET]
+
+\include{chapitres/chapitre1.tex}
+
+\end{document}
