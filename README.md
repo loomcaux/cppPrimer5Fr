@@ -7,3 +7,6 @@ Je propose donc la traduction de ce livre que je publie au fur et à mesure.
 
 ## Rédaction
 La traduction est rédigée en LaTeX.
+
+## Lire la traduction du livre
+Pour lire la traduction du livre avec les dernières modifications, il suffit de télécharger et ouvrir le fichier **Guide C++.pdf**
