@@ -79,3 +79,103 @@ De nombreux compilateurs basés sur PC sont exécutés à partir d'un environnem
 
 La plupart des compilateurs, y compris ceux fournis avec un IDE, fournissent une interface en ligne de commande. À moins que ne connaissiez déjà l'IDE, vous trouverez peut-être plus facile de démarrer avec l'interface de ligne de commande. Cela vous permettra de vous concentrer sur l'apprentissage C++ d'abord. De plus, une fois que vous comprenez le langage, l'IDE est susceptible d'être plus facile à apprendre.
 
+\subsubsection{Convention pour les noms de fichier source du programme}
+
+Que vous utilisiez une interface en ligne de commande ou un IDE, la plupart des compilateurs s'attendent à ce que le code source du programme soit stocké dans un ou plusieurs fichiers. Ces fichiers sont appelés: \textbf{les fichiers sources}. Sur la plupart des systèmes, le nom d'un fichier source se termine par une extension, c'est à dire un point suivi de plusieurs caractères. L'extension indique au système que le fichier est un programme C++. Les compilateurs ont adopté certaines conventions au niveau de l'extension. Ainsi, on retrouve habituellement les extensions \textit{.cc}, \textit{.cxx}, \textit{.cpp}, \textit{.cp} et \textit{.C}.
+
+\subsubsection{Utiliser le compilateur en ligne de commande}
+
+Si nous utilisons une interface en ligne de commande, nous compilerons généralement un programme dans une fenêtre de console (tel qu'un terminal shell sur un système UNIX ou l'invite de commande pour Windows). Supposons que notre programme principal soit écrit dans un fichier nommé \textit{prog1.cc}, nous pourrions le compiler en utilisant une commande telle que :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ CC prog1.cc
+\end{lstlisting}
+\medbreak
+
+où CC nomme le compilateur et \$ est le prompt du terminal. Le compilateur génère un fichier exécutable. Sur Windows, ce fichier exécutable est nommé \textit{prog1.exe}. Les compilateurs UNIX ont tendance à placer leurs exécutables dans des fichiers nommés \textit{a.out}.
+
+Pour lancer cet exécutable sur Windows, il suffit d'écrire le nom de celui sans être obligé de préciser l'extension \textit{.exe} :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ prog1
+\end{lstlisting}
+\medbreak
+
+Sur certains systèmes, vous devez spécifier explicitement l'emplacement du fichier, même si le fichier est dans le répertoire ou le dossier en cours. Dans ce cas, on écrirait :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ .\prog1
+\end{lstlisting}
+\medbreak
+
+Le point "." qui précède l'antislash indique que le fichier se trouve dans le répertoire courant.
+
+Pour lancer un exécutable sous UNIX, nous utilisons le nom complet du fichier, y compris l'extension :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ ./a.out
+\end{lstlisting}
+\medbreak
+
+La valeur renvoyée par \textit{main} est accessible de manière dépendante du système. Sur systèmes UNIX et Windows, après avoir exécuté le programme, vous devez émettre une commande \textit{echo} appropriée.
+
+Sur les systèmes UNIX, on obtient le statut en écrivant :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ echo $?
+\end{lstlisting}
+\medbreak
+
+Pour obtenir le statut sur Windows, on écrit :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	$ echo %ERRORLEVEL%
+\end{lstlisting}
+\medbreak
+
+\begin{shadebox}
+	\textbf{LANCER LE COMPILATEUR GNU OU MICROSOFT}
+	
+	La commande utilisée pour lancer le compilateur C++ varie selon les compilateurs et les systèmes d'exploitation. Les compilateurs les plus courants sont le compilateur GNU et le compilateur Microsoft Visual Studio.Par défaut, la commande pour exécuter le compilateur GNU est \textbf{g++}:
+	
+	\medbreak
+	\begin{lstlisting}[language=C]
+		$ g++ -o prog1 prog1.cc
+	\end{lstlisting}
+	\medbreak
+	
+	Le symbole \$ est le prompt. Le \textbf{-o prog1} est un argument pour le compilateur et il nomme le fichier dans lequel sera mis le fichier exécutable. La commande génère un fichier exécutable nommé \textbf{prog1} ou \textbf{prog1.exe}, en fonction du système d'exploitation. Sur UNIX, les fichiers exécutables n'ont pas d'extension ; sur Windows, l'extension est \textbf{.exe}. Si l'on n'avait pas mis le \textbf{-o prog1}, le compilateur aurait généré un exécutable appelé \textbf{a.out} sur un système UNIX et \textbf{a.exe} sur Windows. (À noter : selon la version du compilateur GNU que vous utilisez, vous devrez peut-être spécifier \textbf{-std=c++0x} pour activer la prise en charge de C++ 11).   
+	
+	La commande pour lancer le compilateur Microsoft Visual Studio 2010 est \textbf{cl}:
+	
+	\medbreak
+	\begin{lstlisting}[language=C]
+		$ C:\Users\me\Programs> cl /EHsc prog1.cpp
+	\end{lstlisting}
+	\medbreak
+	
+	Ici : \textbf{C:/Users/me/Programs>} est le prompt du système et \textbf{/Users/me/Programs} est le nom du répertoire courant (alias: le dossier courant). La commande \textbf{cl} invoque le compilateur, et \textbf{/EHsc} est l'option du compilateur qui active la gestion standard des exceptions. Le compilateur Microsoft génère automatiquement un exécutable avec un nom qui correspond au premier nom du fichier source. L'exécutable a l'extension \textbf{.exe} et le même nom que le ficheir source. Dans notre cas, l'exécutable est nommé \textbf{prog1.exe}.
+	
+	Les compilateurs incluent généralement des options pour générer des avertissements sur constructions problématiques. C'est généralement une bonne idée d'utiliser ces options. Notre préférence est d'utiliser \textbf{-Wall} avec le compilateur GNU, et utiliser \textbf{/W4} avec les compilateurs Microsoft.
+	
+	Pour plus d'informations, consultez le guide utilisateur de votre compilateur.
+	
+\end{shadebox} 
+
+\textbf{EXERCICES SECTION 1.1.1}
+\begin{shadebox}
+	
+	\textbf{Exercice 1.1: }Passez en revue la documentation de votre compilateur et déterminez quelle convention de nommage de fichier il utilise.
+	
+	\textbf{Exercice 1.2: }Modifiez le programme pour retournez \textbf{-1}. Une valeur de retour -1 est souvent traitée comme un indicateur que le programme a échoué. Recompilez et exécutez votre programme pour voir comment votre système traite une indication de panne du \textit{main}.
+\end{shadebox} 
+
+\section{Un premier regard sur les Entrées/Sorties}
+
+Le langage C++ ne définit aucune instruction pour effectuer une entrée ou une sortie (Input/Output).Au lieu de cela, le C++ inclut une bibliothèque standard étendue qui fournit des IO (et de nombreuses autres fonctionnalités).

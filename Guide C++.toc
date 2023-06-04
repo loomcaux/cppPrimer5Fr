@@ -1,4 +1,4 @@
-\babel@toc {french}{}
+\babel@toc {nil}{}\relax 
 \contentsline {section}{\numberline {0.1}Préface}{3}{section.0.1}%
 \contentsline {subsection}{\numberline {0.1.1}Pourquoi lire cet ouvrage ?}{3}{subsection.0.1.1}%
 \contentsline {subsection}{\numberline {0.1.2}Ce qui change dans cette nouvelle édition}{4}{subsection.0.1.2}%
@@ -6,3 +6,6 @@
 \contentsline {chapter}{\numberline {1}COMMENCER}{5}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Écrire un programme simple en C++}{6}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Compilation et Exécution de Notre Programme}{7}{subsection.1.1.1}%
+\contentsline {subsubsection}{Convention pour les noms de fichier source du programme}{7}{section*.2}%
+\contentsline {subsubsection}{Utiliser le compilateur en ligne de commande}{7}{section*.3}%
+\contentsline {section}{\numberline {1.2}Un premier regard sur les Entrées/Sorties}{8}{section.1.2}%
