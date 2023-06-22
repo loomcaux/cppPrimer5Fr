@@ -11,4 +11,5 @@ La traduction est rédigée en LaTeX.
 ## Lire la traduction du livre
 Pour lire la traduction du livre avec les dernières modifications, il suffit de télécharger et ouvrir le fichier **Guide C++.pdf**
 
-## It's an french traduction of book "C++ Primer 5th Edition" by Stanley B. Lippman. 
+## English version
+It's a french traduction of book "C++ Primer 5th Edition" by Stanley B. Lippman. 
