@@ -160,7 +160,7 @@ Pour obtenir le statut sur Windows, on écrit :
 	\end{lstlisting}
 	\medbreak
 	
-	Ici : \textbf{C:/Users/me/Programs>} est le prompt du système et \textbf{/Users/me/Programs} est le nom du répertoire courant (alias: le dossier courant). La commande \textbf{cl} invoque le compilateur, et \textbf{/EHsc} est l'option du compilateur qui active la gestion standard des exceptions. Le compilateur Microsoft génère automatiquement un exécutable avec un nom qui correspond au premier nom du fichier source. L'exécutable a l'extension \textbf{.exe} et le même nom que le ficheir source. Dans notre cas, l'exécutable est nommé \textbf{prog1.exe}.
+	Ici : \textbf{C:/Users/me/Programs>} est le prompt du système et \textbf{/Users/me/Programs} est le nom du répertoire courant (alias: le dossier courant). La commande \textbf{cl} invoque le compilateur, et \textbf{/EHsc} est l'option du compilateur qui active la gestion standard des exceptions. Le compilateur Microsoft génère automatiquement un exécutable avec un nom qui correspond au premier nom du fichier source. L'exécutable a l'extension \textbf{.exe} et le même nom que le fichier source. Dans notre cas, l'exécutable est nommé \textbf{prog1.exe}.
 	
 	Les compilateurs incluent généralement des options pour générer des avertissements sur constructions problématiques. C'est généralement une bonne idée d'utiliser ces options. Notre préférence est d'utiliser \textbf{-Wall} avec le compilateur GNU, et utiliser \textbf{/W4} avec les compilateurs Microsoft.
 	
@@ -178,4 +178,471 @@ Pour obtenir le statut sur Windows, on écrit :
 
 \section{Un premier regard sur les Entrées/Sorties}
 
-Le langage C++ ne définit aucune instruction pour effectuer une entrée ou une sortie (Input/Output).Au lieu de cela, le C++ inclut une bibliothèque standard étendue qui fournit des IO (et de nombreuses autres fonctionnalités).
+Le langage C++ ne définit aucune instruction pour effectuer une entrée ou une sortie (Input/Output).Au lieu de cela, le C++ inclut une bibliothèque standard étendue qui fournit des IO (et de nombreuses autres fonctionnalités).Pour de nombreuses raisons, y compris les exemples de ce livre, il suffit de connaître quelques concepts et opérations de base de la bibliothèque IO.
+
+La plupart des exemples de ce livre utilisent la bibliothèque \textbf{iostream}. Deux types de noms sont des fondamentaux de la bibliothèque \textit{iostream} \textbf{istream} et \textbf{ostream}, qui représentent les flux d'entrée et de sortie. Un flux est une séquence de caractères lus ou écrits sur un périphérique IO. Le terme \textit{flux} est utilisé pour suggérer l'idée que les caractères sont générés, ou consommés, séquentiellement dans le temps.
+
+\subsubsection{Objets d'entrée et de sortie standard}
+La bibliothèque définit quatre objets. Pour gérer l'entrée, nous utilisons un objet de type \textit{istream} appelé \textbf{cin} (prononcé ci-in). Cet objet est également appelé \textbf{standard input}. Pour la sortie, nous utilisons un objet \textit{ostream} appelé \textbf{cout} (prononcé ci-out). Cet objet est connu comme le \textbf{standard output}. La bibliothèque définit deux autres objets \textit{ostream}, appelés \textbf{cerr} et \textbf{clog} (prononcés ci-err et ci-log). Généralement, nous utilisons \textit{cerr} appelé \textbf{standard error}, pour les avertissements et messages d'erreur, et \textit{clog} pour des informations générales sur l'exécution du programme.  
+
+Généralement, le système associe chacun des objets à la fenêtre dans laquelle le programme est exécuté. Donc, lorsque nous lisons depuis \textit{cin}, les données sont lues depuis la fenêtre dans laquelle le programme s'exécute, et lorsque nous écrivons pour \textit{cout}, \textit{cerr}, ou \textit{clog}, la sortie est écrite sur la même fenêtre.
+
+\subsubsection{Un programme qui utilise la bibliothèque IO}
+Concernant le problème de notre librairie,  nous aurons plusieurs enregistrements à combiner dans un même résultat. Examinons d'abord comment nous pourrions additionner deux nombres. En utilisant la bibliothèque IO, nous pouvons étendre notre fonction \textit{main} pour inviter l'utilisateur à nous donner deux nombres et afficher ensuite la somme des deux à l'écran :
+
+	\medbreak
+\begin{lstlisting}[language=C]
+	#include <iostream>
+	int main()
+	{
+		std::cout << "Entrez deux nombres :" << std::endl;
+		int v1 = 0, v2 = 0;
+		std::cin >> v1 >> v2;
+		std::cout << "La somme de " << v1 << " et " << v2 << " est " << v1 + v2 << std::endl;
+		
+		return 0;
+	}
+\end{lstlisting}
+\medbreak
+
+Le programme commence en affichant :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	Entrez deux nombres :
+\end{lstlisting}
+\medbreak
+
+sur l'écran de l'utilisateur, et attend ensuite la saisie de l'utilisateur. Si l'utilisateur saisit : \textbf{3 7} et appuie sur la touche Entrée, alors le programme affichera :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	La somme de 3 et 7 est 10
+\end{lstlisting}
+\medbreak
+
+La première ligne du programme 
+
+\medbreak
+\begin{lstlisting}[language=C]
+	#include <iostream>
+\end{lstlisting}
+\medbreak
+
+permet d'indiquer au compilateur que nous voulons utiliser la bibliothèque \textit{iostream}. Le nom indiqué entre les chevrons (\textit{iostream} dans le cas présent), fait référence à un \textbf{header} (fichier d'en-tête). Chaque programme qui utilise la fonction d'une bibliothèque doit inclure son header associé. La directive \textbf{\#include} doit être écrite sur une seule ligne ; le nom de l'en-tête et le \textit{\#include} doivent apparaître sur la même ligne. En général, la directive \textit{include} doit être placée en dehors de toute fonction. Par convention, nous pouvons placer tous les \textit{\#include} d'un programme au tout début du code source dans un fichier.
+
+\subsubsection{Écrire dans un flux}
+
+La première instruction dans le corps de \textit{main} exécute une \textbf{expression}. En C++, une expression donne un résultat et est composée d'un ou plusieurs opérandes et (généralement) d'un opérateur. Les expressions de cette instruction utilisent l'opérateur de sortie ( \textbf{<<} ) pour imprimer un message sur la sortie standard :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	std::cout << "Entrez deux nombres: " << std::endl;
+\end{lstlisting}
+\medbreak
+
+L'opérateur ( \textbf{<<} ) prend deux opérandes: l'opérande de gauche qui doit être un objet \textit{ostream} ; l'opérande de droite qui est une valeur à afficher. L'opérateur écrit la valeur donnée sur l'\textit{ostream} donné. Le résultat de l'opérateur de sortie est son opérande côté gauche. Autrement dit, le résultat est l'\textit{ostream} sur lequel nous avons écrit la valeur donnée.
+
+Notre instruction de sortie utilise deux fois l'opérateur \textbf{<<}. Parce que l'opérateur retourne son opérande de gauche, le résultat du premier opérateur devient l'opérande de gauche du second. En conséquence, nous pouvons enchaîner les demandes de sortie. Ainsi, notre expression est équivalente à :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	(std::cout << "Entrez deux nombres: ") << std::endl;
+\end{lstlisting}
+\medbreak
+
+Chaque opérateur de la chaîne a le même objet que son opérande de gauche, dans ce cas \textit{std::cout}. Alternativement, nous pouvons générer la même sortie en utilisant deux instructions :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	std::cout << "Entrez deux nombres: ";
+	std::cout << std::endl;
+\end{lstlisting}
+\medbreak
+
+Le premier opérateur de sortie affiche un message à l'utilisateur. Ce message est un \textbf{littéral de chaîne}, lequel est une séquence de caractères enfermés dans des guillemets doubles. Le texte à l'intérieur des guillemets est affiché vers la sortie standard.
+
+Le deuxième opérateur affiche \textit{endl}, lequel est une valeur spéciale appelée un \textbf{manipulateur}. Écrire \textit{endl} a pour effet de terminer la ligne en cours et de vider le tampon associé à ce périphérique. Le vidage du tampon garantit que toute la sortie générée par le programme jusqu'à présent est réellement écrite dans le flux de sortie, plutôt que de rester en mémoire en attendant d'être écrite.
+
+\begin{shadebox}
+	Les programmeurs ajoutent souvent des instructions d'affichage lors du débogage. De telles instructions doivent toujours vider le flux. Sinon, si le programme plante, la sortie peut être laissée dans le tampon, conduisant à des inférences incorrectes là où le programme a planté.
+\end{shadebox}
+
+\subsubsection{Utilisation des noms de la bibliothèque standard}
+Les lecteurs attentifs noteront que ce programme utilise \textit{std::cout} et \textit{std::endl} au lieu d'écrire simplement \textit{cout} et \textit{endl}. Le préfixe \textit{std::} indique que les noms \textit{cout} et \textit{endl} sont définis à l'intérieur de l'\textbf{espace de noms} nommé \textbf{std}. Les espaces de noms nous permettent d'éviter les collisions involontaires entre les noms que nous définissions et les utilisations de ces mêmes noms à l'intérieur d'une bibliothèque. Tous les noms définis dans la bibliothèque standard sont dans l'espace de nom std.
+
+Un des inconvénients de l'utilisation d'un espace de noms par la bibliothèque est que lorsque nous utilisons un nom de la bibliothèque, nous devons dire explicitement que nous voulons utiliser le nom de l'espace de noms std. L'écriture de \textit{std::cout} utilise l'opérateur de portée ( \textbf{::} ) pour dire que nous voulons utiliser le nom \textit{cout} qui est défini dans l'espace de noms \textit{std}. Dans le chapitre 3.1, nous verrons une manière plus simple d'accéder aux noms de la bibliothèque.
+
+\subsubsection{Lecture à partir d'un Flux}
+Après avoir demandé à l'utilisateur une saisie, nous voulons ensuite lire cette saisie. Nous commençons par définir deux \textbf{variables} appelées \textit{v1} et \textit{v2} pour contenir cette entrée saisie:
+
+\medbreak
+\begin{lstlisting}[language=C]
+	int v1 = 0, v2 = 0;
+\end{lstlisting}
+\medbreak
+
+Nous définissons ces variables avec le type \textit{int}, qui est un type intégré représentant des entiers. Nous les initialisons également à 0. Lorsque nous initialisons une variable, nous lui donnons la valeur indiquée en même temps que la variable est créée.
+
+L'instruction suivante :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	std::cin >> v1 >> v2;
+\end{lstlisting}
+\medbreak 
+
+lit la saisie. L'opérateur de saisie ( le >> ) se comporte de manière analogue à l'opérateur de sortie. Il prend un \textbf{istream} comem opérande de gauche et un objet comme son opérande de droite. Il lit les données de l'istream donné et stocke ce qui était lu dans l'objet donné. Comme l'opérateur de sortie, l'opérateur d'entrée renvoie son opérande de gauche comme résultat. Cette expression équivaut donc à :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	(std::cin >> v1) >> v2;
+\end{lstlisting}
+\medbreak
+
+Comme l'opérateur renvoie son opérande de gauche, nous pouvons combiner une série de requêtes d'entrée en une instruction. Notre opération d'entrée lit deux valeurs à partir de \textit{std::cin}, stocke la première dans \textbf{v1} et la seconde dans \textbf{v2}. En d'autres termes, notre opération d'entrée exécute comme ceci :
+
+\medbreak
+\begin{lstlisting}[language=C]
+	std::cin >> v1;
+	std::cin >> v2;
+\end{lstlisting}
+\medbreak 
+
+\subsubsection{Compléter le programme}
+Il ne reste plus qu'à afficher notre résultat:
+
+\medbreak
+\begin{lstlisting}[language=C]
+	std::cout << "La somme de " << v1 << " et " << v2
+			  << " est " << v1 + v2 << std::endl;
+\end{lstlisting}
+\medbreak
+
+Cette instruction, bien que plus longue que celle qui invitait l'utilisateur à la saisie, est conceptuellement la même. Elle affiche chaque opérande sur la sortie standard. Ce qui est intéressant dans cet exemple est que les opérandes n'ont pas le même type de valeur. Certains opérandes sont des littéraux de chaîne, comme le "\textit{La somme de }". D'autres sont des valeurs de type \textit{int}, comme \textit{v1}, \textit{v2}, et le résultat évalué par l'opération arithmétique \textit{v1 + v2}. La bibliothèque définit les versions des opérateurs d'entrée et de sortie qui gèrent les opérandes de chacun de ces types différents.
+
+\medbreak
+
+\textbf{EXERCICES SECTION 1.2}
+\begin{shadebox}
+	
+	\textbf{Exercice 1.3}: Écrire une programme qui affiche \textit{Hello, World} sur la sortie standard.
+	
+	\textbf{Exercice 1.4}: Notre programme a utilisé l'opérateur d'addition, +, pour additionner deux nombres. Écrire un programme qui utilise cette fois-ci l'opérateur de multiplication, *, pour effectuer le résultat.
+	
+	\textbf{Exercice 1.5}: Nous avons écris la sortie dans une longue instruction. Réécrire la programme en utilisant des séparateurs d'instruction pour afficher chaque opérande.
+	
+	\textbf{Exercice 1.6}: Expliquez si le programme suivant fonctionne :
+	
+	\medbreak
+	\begin{lstlisting}[language=C]
+		std::cout << "La somme de "<< v1;
+		          << " et " << v2;
+		          << " est " << v1 + v2 << std::endl;
+	\end{lstlisting}
+	\medbreak
+	
+	Si le programme est correct, que fait-il ? Si le programme ne peut pas fonctionner, pourquoi ? Que devrions-nous corriger dans ce cas ?
+\end{shadebox}  
+
+\medbreak  
+
+\section{Un Point sur les Commentaires}
+Avant que nos programmes ne deviennent plus compliqués, intéressons nous à la façon dont C++ gère les \textbf{commentaires}. Les commentaires sont une aide pour le développeur dans la rédaction de ses programmes. Typiquement, ils sont utilisés pour résumer un algorithme, identifier le but d'une variable, ou clarifier un segment de code difficile à comprendre. Les commentaires seront ignorés par le compilateur, autrement dit, ils n'auront aucun effet sur le comportement ou les performances du programme.
+Si le compilateur les ignorent, ce ne sera pas le cas de ceux qui liront notre code. Les programmeurs ont tendance à accorder de l'importance aux commentaires même lorsque d'autres parties de la documentation du système sont obsolètes. Un mauvais commentaire est bien pire que pas de commentaires du tout car il peut induire le lecteur en erreur. Lorsque vous modifiez votre code, assurez-vous de mettre également à jour les commentaires en conséquence.
+
+\subsubsection{Les différents commentaires en C++}
+Il y a deux sortes de commentaires en C++: sur une seule ligne ou plusieurs. Un commentaire sur une seule ligne débute avec un double slash (//) et se termine lorsqu'on saute pour aller à la ligne suivante. Tout ce qui se trouve alors à droite des deux barres obliques et sur la même ligne est ignoré par le compilateur. Une commentaire écris de cette façon peut contenir n'importe quel texte, y compris des doubles slash supplémentaires.
+
+L'autre façon de rédiger un commentaire est utiliser les balises (\textbf{/*} et \textbf{*/}) pour délimiter le texte ; il s'agit d'un héritage du langage C. Chaque commentaire commence avec la balise ouvrante \textbf{/*} et se termine avec la balise fermante \textbf{*/}. Les commentaires peuvent inclure tout ce qui n'est pas une balise fermante */, et ce sur plusieurs lignes. Le compilateur considère alors tout ce qui se trouve entre ces deux balises comme étant un commentaire et ne le traitera donc pas.
+
+Un commentaire sur plusieurs lignes peut être placé partout où un onglet, une espace ou une nouvelle ligne est autorisée. Ces longs commentaires peuvent s'étendre sur plusieurs lignes d'un programme mais ce n'est pas une obligation. Lorsqu'un commentaire s'étend sur plusieurs lignes, il est souvent judicieux d'indiquer visuellement que les lignes inférieures font partie d'un commentaire multi-lignes. Notre style consiste à commencer chaque ligne du commentaire par un astérisque, indiquant que toute la plage fait partie du commentaire multi-lignes.
+
+Généralement, on trouve, dans les programmes, un mix des deux types de commentaires. Les balises de commentaires sont bien souvent utilisées pour des explications sur plusieurs lignes, tandis que les commentaires avec le double-slash ont tendance à être utilisés pour les remarques sur une demi-ligne et sur une seule ligne :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	#include <iostream>
+	/*
+	 * Une fonction main avec un programme tres simple :
+	 * Lire deux nombres et afficher le resultat
+	 */
+	 int main()
+	 {
+		// invite l'utilisateur a saisir deux nombres
+		std::cout << "Saisir deux nombres:" << std::endl;
+		int v1 = 0, v2 = 0; // variables qui vont contenir l'entree saisie
+		std::cin >> v1 >> v2; // lecture de la saisie
+		std::cout << "La somme de " << v1 << " et " << v2
+			      << " est " << v1 + v2 << std::endl;
+		return 0;	 
+ }
+\end{lstlisting}
+\medbreak  
+
+\begin{shadebox}
+	Dans le livre, nous mettons les commentaires en italique pour les faire ressortir par rapport au code du programme. Dans la réalité, la distinction entre le texte du commentaire et le texte utilisé pour le code du programme dépend de l'environnement de programmation que vous utilisez.
+\end{shadebox}
+
+\subsubsection{Les Balises de Commentaires ne s'imbriquent pas}
+Un commentaire commence avec /* et se termine avec */. Par conséquent, une paire de commentaires ne peut pas apparaître à l'intérieur d'une autre. Le compilateur génère un message d'erreur dont le contenu peut être mystérieux et déroutant. Par exemple, essayez de compiler le programme suivant :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	/*
+	 * les balises commentaires /*   */ ne s'imbriquent pas.
+	 * "ne s'imbriquent pas" est considere comme du code source,
+	 * ainsi que le reste du programme
+	 */
+	 int main()
+	 {
+		return 0;	 
+ }
+\end{lstlisting}
+\medbreak  
+
+Nous avons souvent besoin de commenter un bloc de code lors du débogage. Étant donné que ce code peut contenir des balises de commentaires imbriquées, la meilleure façon de commenter un bloc de code pour insérer des commentaires sur une ligne au début de chaque ligne dans la section que nous voulons ignorer:
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	// /*
+	// * tout ce qui se trouve a l'interieur d'un commentaire d'une seule ligne 
+	// * est ignore
+	// * cela inclus les balises de commentaires
+	// */
+\end{lstlisting}
+\medbreak
+
+\textbf{EXERCICES SECTION 1.3}
+\begin{shadebox}
+\textbf{Exercice 1.7}: Compilez un programme qui a des commentaires imbriqués de manière incorrect.
+\textbf{Exercice 1.8}: Indiquez quelles sont, le cas échéant, les instructions de sorties suivantes qui sont correctes :
+\medbreak
+	\begin{lstlisting}[language=C++]
+		std::cout << "/*";
+		std::cout << "*/";
+		std::cout << /* "*/" /*;
+		std::cout << /* "*/" /* "/*" */;
+	\end{lstlisting}
+	\medbreak
+	
+	Après avoir prédit ce qui va se passer, testez vos réponses en compilant un programme avec chacun de ces énoncés. Corrigez toutes les erreurs que vous rencontrez.
+	
+\end{shadebox}
+
+\section{Flux de Contrôle}
+Les instructions s'exécutent normalement de manière séquentielle: La première instruction dans un bloc est exécutée en première, suivie de la seconde, et ainsi de suite. Bien sûr, peu de programmes - y compris celui qui résout notre problème de librairie - peuvent être écrits en utilisant uniquement une programmation séquentielle. Au lieu de cela, les langages de programmation fournissent diverses instructions de flux de contrôle qui permettent des chemins d'exécution plus compliqués.
+
+\subsection{L'instruction \textit{while}}
+Une instruction \textbf{while} exécute à plusieurs reprises une section de code aussi longtemps qu'une condition donnée est vraie. Nous pouvons utiliser \textbf{while} pour écrire un programme qui va additionner les nombres de 1 à 10 comme ceci : 
+
+	\medbreak
+\begin{lstlisting}[language=C++]
+	#include <iostream>
+	
+	int main()
+	{
+		int sum = 0, val = 1;
+		// cette portion de code se repete tant que val est inferieur ou egale a 10
+		
+		while (val <= 10 ) {
+			sum += val; // assigne sum + val a sum
+			++val;      // ajoute 1 a val	
+		}
+		std::cout << "La somme de 1 a 10 inclus est "
+				  << sum << std::endl;
+				  
+		return 0;
+}
+\end{lstlisting}
+\medbreak
+
+Lorsque nous compilons et exécutons le programme, cela affiche :
+
+\medbreak
+\begin{lstlisting}[language=Bash]
+	La somme de 1 a 10 inclus est 55
+\end{lstlisting}
+\medbreak
+
+Comme précédemment, nous commençons par inclure l'en-tête \textit{iostream} et nous définissons \textit{main}. À l'intérieur de \textit{main} nous définissons deux variables de type \textit{int}: \textbf{sum}, laquelle contiendra notre addition, et \textbf{val}, laquelle représentera chacune des valeurs allant de 1 à 10. Nous donnons à \textbf{sum} la valeur initiale de 0, tandis que \textbf{val} commence avec la valeur 1. 
+
+La nouveauté dans notre programme est l'instruction \textit{while}. Une instruction \textbf{while} prend la forme suivante :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	while (condition)
+          instructions...
+\end{lstlisting}
+\medbreak
+
+Une boucle \textbf{while} tourne en testant (alternativement) la \textit{condition} et en exécutant les instructions qui lui sont associées jusqu'à ce que la condition soit fausse. Une \textbf{condition} est une expression qui donne un résultat soit vrai ou faux. Tant que la condition est vraie, la boucle est exécutée. Lorsque toutes les instructions de la boucle ont été exécutées, la \textit{condition} est testée de nouveau. Si la condition est encore vraie, alors les instructions sont à nouveau exécutées. La boucle continue, en alternant le test de la condition et l'exécution des instructions jusqu'à ce que la condition soit fausse.
+
+Dans ce programme, la boucle \textbf{while} est :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	while (val <= 10){
+		sum += val;
+		++val;	
+}
+\end{lstlisting}
+\medbreak
+
+La condition utilise l'opérateur inférieur ou égale ( <= ) pour comparer la valeur actuelle de \textbf{val} et \textbf{10}. Tant que \textit{val} est plus petit ou égale à 10, la condition est vraie (\textbf{true} en anglais). Si la condition est vraie, nous exécutons le corps de la boucle \textbf{while}. Dans cet exemple, le corps est un bloc de deux instructions :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+{
+    sum += val;
+    ++val;	
+}
+\end{lstlisting}
+\medbreak
+
+Un bloc est une séquence de zéro ou plusieurs instructions encadrées par des crochets. Un bloc est une instruction et peut être utilisé partout où une instruction est requise. La première instruction de ce bloc utilise l'opérateur d'affectation composé (l'opérateur \textbf{+=}). Cet opérateur affecte l'opérande de droite à celui de gauche et stocke le résultat dans l'opérande de gauche. Cela revient à écrire une addition et l'affecter ensuite :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	sum = sum + val; // assigne sum + val a la variable sum
+\end{lstlisting}
+\medbreak
+
+Ainsi, la première instruction de la boucle affecte la valeur actuelle de \textbf{val} dans \textbf{sum} et stocke le résultat dans \textbf{sum}.
+
+La seconde instruction
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	++val;     // ajoute 1 a val
+\end{lstlisting}
+\medbreak
+
+utilise comme préfixe l'opérateur d'incrémentation (l'opérateur \textbf{++}). L'opérateur d'incrémentation ajoute 1 à l'opérande. Écrire \textbf{++val} revient à écrire \textbf{val = val + 1}.
+
+Après l'exécution du corps de \textit{while}, la boucle évalue de nouveau la condition. Si la valeur de \textbf{val} (qui vient d'être incrémentée) est plus petite ou égale à 10, alors le corps de \textit{while} est de nouveau exécuté. La boucle continue, en testant la condition et en exécutant le corps, jusqu'à ce que \textbf{val} ne soit plus inférieur ou égale à 10.
+
+Au moment où \textbf{val} est supérieur à 10, le programme sort de la boucle \textit{while} et continue en exécutant les instructions qui se trouvent après la boucle \textit{while}. Dans notre cas, l'instruction affiche notre sortie, puis arrive le \textbf{return}, lequel met fin à notre fonction \textit{main}.
+
+\bigbreak
+
+\textbf{EXERCICES SECTION 1.4.1}
+\begin{shadebox}
+	\textbf{Exercice 1.9 :} Écrire un programme qui utilise une boucle \textit{while} pour additionner les nombres de 50 à 100.
+	
+	\textbf{Exercice 1.10 :} En plus de l'opérateur ++ qui ajoute 1 à l'opérande, il y a un opérateur de décrémentation (- -) qui soustrait 1. Utilisez l'opérateur de décrémentation pour écrire une boucle \textit{while} qui affiche les nombres de 10 en descendant vers 0.
+	
+	\textbf{Exercice 1.11 :} Écrire un programme qui invite l'utilisateur à entrer deux nombres entiers. Affichez chaque nombre de la plage spécifiée par ces deux entiers.  
+\end{shadebox}
+
+\medbreak
+
+\subsection{L'instruction \textbf{for}}
+Dans notre boucle \textit{while}, nous avons utilisé la variable \textit{val} pour contrôler le nombre de fois où nous avons exécuté la boucle. Nous avons testé la valeur de \textit{val} dans une condition et avons incrémenté \textit{val} dans le corps de la boucle.
+
+Ce modèle - utiliser une variable dans une condition et incrémenter cette variable dans le corps - se produit si souvent que le language propose une seconde instruction, \textbf{l'instruction for}, qui réduit le code qui suit ce modèle. Nous pouvons réécrire ce programme en utilisant une boucle \textbf{for} pour additionner les nombres de 1 jusqu'à 10 en faisant ceci :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	#include <iostream>
+	int main()
+	{
+		int sum = 0;
+		// l'addition des valeurs de 1 jusqu'a 10 inclus
+		for (int val = 1; val <= 10; ++val)
+			sum += val;  // qui equivaut a sum = sum + val
+		std::cout << " L'addition de 1 a 10 inclus est : "
+				  << sum << std::endl;
+		return 0;
+	}
+\end{lstlisting}
+\medbreak
+
+Comme nous l'avons fait précédemment, nous définissons \textit{sum} et initialisons à zéro. Dans cette version, nous définissons \textit{val} comme faisant partie de l'instruction \textit{for} elle-même:
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	for (int val = 1; val <= 10; ++val)
+		sum += val;
+\end{lstlisting}
+\medbreak
+
+Chaque instruction \textit{for} a deux parties : un en-tête et un corps. L'en-tête définit combien de fois le corps est exécuté. L'en-tête lui-même se découpe en trois parties : une instruction d'initialisation, une condition, et une expression. Dans cet exemple, la fonction d'initialisation
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	int val = 1;
+\end{lstlisting}
+\medbreak
+
+définit un objet de type \textit{int} appelé \textit{val} et à qui on donne la valeur 1 à l'initialisation. La variable \textit{val} existe seulement à l'intérieur de \textit{for} ; il n'est pas possible d'utiliser \textit{var} en dehors de la boucle. L'instruction d'initialisation est exécutée une fois seulement, à l'entrée de \textit{for}. La condition
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	val <= 10
+\end{lstlisting}
+\medbreak
+
+compare la valeur actuelle de \textit{val} avec 10. La condition est testée à chaque tour de boucle. Tant que \textit{val} est plus petit ou égale à 10, nous exécutons le corps de \textit{for}. L'expression est exécutée après le corps de \textit{for}. Ici, \textit{l'expression}
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	++val
+\end{lstlisting}
+\medbreak
+
+utilise l'opérateur d'incrémentation en préfixe, lequel ajoute 1 à la valeur de \textit{val}. Une fois l'expression exécutée, la boucle \textit{for} teste de nouveau la condition. Si la nouvelle valeur de \textit{val} est plus petite ou égale à 10, alors la boucle s'exécute une nouvelle fois. À la fin de l'exécution du corps, \textit{val} est incrémenté à nouveau. La boucle continue jusqu'à ce que la condition soit fausse.
+
+Dans cette boucle, le corps de \textit{for} effectue l'addition
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	sum += val; 
+\end{lstlisting}
+\bigbreak
+
+Récapitulons : le flux d'exécution global de ce \textit{for} est :
+
+\medbreak
+\begin{itemize}
+	\item[\textbullet] Création de \textit{val} et initialisation à 1.
+	\item[\textbullet] Tester si \textit{val} est inférieure ou égale à 10. Si le test est positif, exécution du corps de \textit{for}. Si le test est négatif, sortie de la boucle et poursuite de l'exécution avec la première instruction qui suit le corps de la boucle.
+	\item[\textbullet] Incrémentation de \textit{val}.
+	\item[\textbullet] Répétition du test de l'étape 2, poursuite du reste des étapes tant que la condition est vraie.
+\end{itemize}
+\medbreak
+
+\subsection{Lecture d'un nombre inconnu d'entrées}
+Dans les précédentes sections, nous avons écrit des programmes qui additionnaient les nombres de 1 à 10. Une amélioration de ce programme serait de demander à l'utilisateur d'entrer un ensemble de nombre à additionner. Dans cet exemple, nous ne savons pas combien de nombres additionner. Au lieu de cela, nous continuerons à lire les nombres jusqu'à ce qu'il n'y ait plus de nombre à lire :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	#include <iostream>
+	int main()
+	{
+		int sum = 0, value = 0;
+		// lire jusqu'a la fin du fichier, en calculant un total cumule de toutes les valeurs lues
+		while (std::cin > value)
+			sum += value;
+		std::cout << "L'addition est : " << sum << std::endl;
+		return 0;
+	}
+\end{lstlisting}
+\bigbreak
+
+Si nous donnons ces valeurs au programme :
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	3 4 5 6
+\end{lstlisting}
+\bigbreak
+
+alors notre résultat affiché sera 
+
+\medbreak
+\begin{lstlisting}[language=C++]
+	L'addition est : 18 
+\end{lstlisting}
+\bigbreak
+
